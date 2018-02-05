@@ -1,6 +1,6 @@
 
 $(document).ready(function(){
-//FIREBASE=========================================================
+//initialize firebase
  var config = {
     apiKey: "AIzaSyA4enp4wGmJJGouxqX2DUcYvql-k_szmcI",
     authDomain: "train-schedule-c8e3a.firebaseapp.com",
@@ -10,23 +10,23 @@ $(document).ready(function(){
     messagingSenderId: "1015050236178"
   };
   firebase.initializeApp(config);
-//VARIABLES=========================================================
+//VARIABLES
 var database = firebase.database();
-//CONVERT TRAIN TIME================================================
+//CONVERT TRAIN TIME
 //var currentTime = moment();
 //console.log("Current Time: " + currentTime);
-//FUNCTIONS=========================================================
+//FUNCTIONS
 
 // CAPTURE BUTTON CLICK
 $("#submit").on("click", function() {
 
-//VALUES FOR EACH VARIABLE IN HTML
+//values for html variables
   var name = $('#nameInput').val().trim();
     var dest = $('#destInput').val().trim();
     var time = $('#timeInput').val().trim();
     var freq = $('#freqInput').val().trim();
 
-// PUSH NEW ENTRY TO FIREBASE
+// pushing new entry to fireboi
   database.ref().push({
     name: name,
     dest: dest,
@@ -34,12 +34,12 @@ $("#submit").on("click", function() {
       freq: freq,
       timeAdded: firebase.database.ServerValue.TIMESTAMP
   });
-  // NO REFRESH
+  // stopping refresh
   $("input").val('');
     return false;
 });
 
-//ON CLICK CHILD FUNCTION
+//on click function
 database.ref().on("child_added", function(childSnapshot){
   // console.log(childSnapshot.val());
   var name = childSnapshot.val().name;
@@ -53,7 +53,7 @@ database.ref().on("child_added", function(childSnapshot){
   console.log("Frequency: " + freq);
   //console.log(moment().format("HH:mm"));
 
-//CONVERT TRAIN TIME================================================
+//converting train times
   var freq = parseInt(freq);
   //CURRENT TIME
   var currentTime = moment();
@@ -80,7 +80,7 @@ database.ref().on("child_added", function(childSnapshot){
   console.log("ARRIVAL TIME: " + moment(nextTrain).format('HH:mm A'));
   //console.log(==============================);
 
- //TABLE DATA=====================================================
+ //table data
  //APPEND TO DISPLAY IN TRAIN TABLE
 $('#currentTime').text(currentTime);
 $('#trainTable').append(
